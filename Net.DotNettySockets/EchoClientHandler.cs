@@ -25,25 +25,36 @@ namespace Net.DotNettySockets
         //{
         //    _bootstrap = bst;
         //}
-
+        // 新的连接建立的时候会触发
         //重写基类方法，当链接上服务器后，马上发送Hello World消息到服务端
-        public override void ChannelActive(IChannelHandlerContext context) => context.WriteAndFlushAsync(this.initialMessage);
+        public override void ChannelActive(IChannelHandlerContext context)
+        {
+            base.ChannelActive(context);
+            //context.WriteAndFlushAsync(this.initialMessage); 
+        }
 
         public override void ChannelRead(IChannelHandlerContext context, object message)
         {
             var byteBuffer = message as IByteBuffer;
             if (byteBuffer != null)
             {
-                Console.WriteLine("Received from server: " + byteBuffer.ToString(Encoding.UTF8));
+                //Console.WriteLine("Received from server: " + byteBuffer.ToString(Encoding.UTF8));
             }
-            context.WriteAsync(message);
+            //context.WriteAsync(message);
+            context.WriteAndFlushAsync(message);//需要使用这个方法，去除远程主机强制关闭连接
         }
-
-        public override void ChannelReadComplete(IChannelHandlerContext context) => context.Flush();
+        /// <summary>
+        /// 管道读取完成时
+        /// </summary>
+        /// <param name="context"></param>
+        public override void ChannelReadComplete(IChannelHandlerContext context)
+        {
+            context.Flush();
+        }
 
         public override void ExceptionCaught(IChannelHandlerContext context, Exception exception)
         {
-            Console.WriteLine("Exception: " + exception);
+            //Console.WriteLine("Exception: " + exception);
             context.CloseAsync();
         }
 
@@ -61,13 +72,13 @@ namespace Net.DotNettySockets
         }
         public override void HandlerAdded(IChannelHandlerContext context)
         {
-            Console.WriteLine($"服务端{context}上线.");
+            //Console.WriteLine($"服务端{context}上线.");
             base.HandlerAdded(context);
         }
 
         public override void HandlerRemoved(IChannelHandlerContext context)
         {
-            Console.WriteLine($"服务端{context}下线.");
+            //Console.WriteLine($"服务端{context}下线.");
             base.HandlerRemoved(context);
         }
     }

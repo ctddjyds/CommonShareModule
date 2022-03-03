@@ -15,6 +15,23 @@ namespace Net.SignalRs
         public Action HubConnectionReConnect;
         public Action<string> HubConnectionReceived;
         public Action HubConnectionClosed;
+        public bool IsClosed 
+        {
+            get
+            { if (_Connection == null)
+                    return true;
+                if (_Connection.State == ConnectionState.Connected)
+                    return false;
+                else
+                    return true;
+            }
+        }
+
+        public ConnectionState ConnectionState { get 
+            {
+                if (_Connection == null)
+                    return ConnectionState.Disconnected;
+                return _Connection.State; } }
         /// <summary>
         /// 初始化服务连接
         /// </summary>
@@ -30,7 +47,7 @@ namespace Net.SignalRs
             _Connection.Closed += HubConnection_Closed;
             _Connection.Received += HubConnection_Received;
             _Connection.Reconnected += HubConnection_Reconnected;
-            _Connection.TransportConnectTimeout = new TimeSpan(DataCommon.ClientConnectTimeout);
+            //_Connection.TransportConnectTimeout = new TimeSpan(DataCommon.ClientConnectTimeout);
            
             //绑定一个集线器
             //根据hub名创建代理，一些操作由这个代理来做
@@ -66,6 +83,7 @@ namespace Net.SignalRs
             //{
 
             //}
+            //IsClosed = true;
             HubConnectionClosed?.Invoke();
 
         }

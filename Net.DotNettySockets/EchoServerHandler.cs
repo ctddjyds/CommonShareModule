@@ -50,8 +50,9 @@ namespace Net.DotNettySockets
                         string msg = buffer.ToString(Encoding.UTF8);
                         if (string.IsNullOrEmpty(msg))
                             return;
-                        string barCode = msg.TrimEnd(new char[] { (char)3, (char)2 });
-                        if (string.IsNullOrEmpty(barCode) || barCode == "NoRead")
+                        string msg2 = msg.TrimStart(new char[] { (char)3, (char)2 });
+                        string barCode = msg2.TrimEnd(new char[] { (char)3, (char)2 });
+                        if (string.IsNullOrEmpty(barCode) || barCode == "NoRead"||barCode== "HeartBeat")
                             return;
                         _EchoEvent.OnMessageReceive((context.Channel.RemoteAddress as IPEndPoint).ToString(), barCode);
                     }
@@ -60,8 +61,8 @@ namespace Net.DotNettySockets
             ReferenceCountUtil.Release(message);
         }
         //管道读取完成 输出到客户端，也可以在上面的方法中直接调用WriteAndFlushAsync方法直接输出
-        public override void ChannelReadComplete(IChannelHandlerContext context) 
-        { context.Flush(); }
+        //public override void ChannelReadComplete(IChannelHandlerContext context) 
+        //{ context.Flush(); }
 
         //捕获 异常，并输出到控制台后断开链接，提示：客户端意外断开链接，也会触发
         public override async void ExceptionCaught(IChannelHandlerContext context, Exception exception)

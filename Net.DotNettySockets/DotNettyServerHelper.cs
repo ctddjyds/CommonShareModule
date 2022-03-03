@@ -61,7 +61,8 @@ namespace Net.DotNettySockets
                 bootstrap
                     .Group(bossGroup, workerGroup) // 设置主和工作线程组
                     .Channel<TcpServerSocketChannel>() // 设置通道模式为TcpSocket
-                    .Option(ChannelOption.SoBacklog, 1024) // 设置网络IO参数等，这里可以设置很多参数，当然你对网络调优和参数设置非常了解的话，你可以设置，或者就用默认参数吧      
+                    //.Option(ChannelOption.SoBacklog, 1024) // 设置网络IO参数等，这里可以设置很多参数，当然你对网络调优和参数设置非常了解的话，你可以设置，或者就用默认参数吧      
+                    .Option(ChannelOption.SoKeepalive,true)
                     .ChildHandler//设置工作线程参数
                     (new ActionChannelInitializer<ISocketChannel>(//ChannelInitializer 是一个特殊的处理类，他的目的是帮助使用者配置一个新的 Channel
                         channel =>

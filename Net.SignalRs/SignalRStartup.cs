@@ -27,6 +27,7 @@ namespace Net.SignalRs
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             //2.hub方式配置，映射到默认的管理,默认指定一个路径  "/signalr"
             app.MapSignalR(configuration);
+            
         }
     }
 }

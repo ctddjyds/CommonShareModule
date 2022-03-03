@@ -65,6 +65,7 @@ namespace MQ.Client
                     //声明队列
                     if(_isNeedPriority)
                     {
+                        //exclusive：排他队列，只有创建它的连接(connection)能连，创建它的连接关闭，会自动删除队列。
                         //exclusive：是否排外的，有两个作用，一：当连接关闭时connection.close()该队列是否会自动删除；
                         //二：该队列是否是私有的private，如果不是排外的，可以使用两个消费者都访问同一个队列，没有任何问题，如果是排外的，会对当前队列加锁，
                         //其他通道channel是不能访问的，如果强制访问会报异常：com.rabbitmq.client.ShutdownSignalException: channel error; 

@@ -36,11 +36,7 @@ namespace Redis.Test
             var ddd= dd.Get<List<UserInfo>>("userinfolist");
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            UserReposity ff = new UserReposity("");
-           //ff.AsDeleteable
-        }
+        
     }
 
     [Serializable]

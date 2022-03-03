@@ -1,6 +1,6 @@
 ﻿using CTDDJYDS.CommonModule;
-using CTDDJYDS.SocketModule.SuperSocketServer;
-using CTDDJYDS.SocketModule.SuperSocketServer.Command;
+using Net.SuperSocket.SuperSocketServer;
+using Net.SuperSocket.SuperSocketServer.Command;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
